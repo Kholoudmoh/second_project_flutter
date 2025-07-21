@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:iconsax/iconsax.dart';
+import '/app_colors.dart';
 
 class OtpScreen extends StatefulWidget {
   const OtpScreen({super.key});
@@ -20,109 +20,84 @@ class _OtpScreenState extends State<OtpScreen> {
     super.dispose();
   }
 
-  void _submitOtp() {
-    String otp = _controllers.map((c) => c.text).join();
-    if (otp.length == 6) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('تم التحقق من الرمز: $otp')),
-      );
-    } else {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('يرجى إدخال الرمز الكامل')),
-      );
-    }
+  Widget _buildOtpBox(int index) {
+    return SizedBox(
+      width: 40,
+      child: TextField(
+        controller: _controllers[index],
+        keyboardType: TextInputType.number,
+        textAlign: TextAlign.center,
+        maxLength: 1,
+        style: const TextStyle(fontSize: 20),
+        decoration: const InputDecoration(
+          counterText: "",
+          filled: true,
+          fillColor: Colors.white,
+        ),
+        onChanged: (value) {
+          if (value.isNotEmpty && index < 5) {
+            FocusScope.of(context).nextFocus();
+          }
+        },
+      ),
+    );
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: AppColors.whiteApp,
       body: Stack(
         children: [
-          // الخلفية المزخرفة
+          // ✅ الخلفية
           Positioned.fill(
             child: Image.asset(
               'assets/images/background_pattern.jpg',
               fit: BoxFit.cover,
             ),
           ),
-          // المحتوى الآمن
-          SafeArea(
-            child: Padding(
-              padding: const EdgeInsets.all(24.0),
+
+          // ✅ المحتوى الأساسي
+          Align(
+            alignment: Alignment.bottomCenter,
+            child: Container(
+              height: 400,
+              padding: const EdgeInsets.all(20),
+              decoration: BoxDecoration(
+                color: AppColors.mainColor.withOpacity(0.9),
+                borderRadius:
+                const BorderRadius.vertical(top: Radius.circular(30)),
+              ),
               child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  const SizedBox(height: 30),
-
-                  // أيقونة بالأعلى
-                  const Icon(
-                    Iconsax.security, // ✅ استخدام أيقونة من iconsax
-                    size: 64,
-                    color: Colors.pinkAccent,
-                  ),
-
-                  const SizedBox(height: 20),
-
                   const Text(
                     'أدخل رمز التحقق OTP',
-                    style: TextStyle(
-                      fontSize: 24,
-                      fontWeight: FontWeight.bold,
-                    ),
+                    style: TextStyle(color: Colors.white, fontSize: 20),
+                  ),
+                  const SizedBox(height: 10),
+                  const Text(
+                    'لقد أرسلنا الكود الخاص بك إلى 010***000.\nسينتهي هذا الكود في 00:30',
+                    style: TextStyle(color: Colors.white),
                     textAlign: TextAlign.center,
                   ),
-
-                  const SizedBox(height: 40),
-
-                  // مربعات الـ OTP
+                  const SizedBox(height: 20),
                   Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: List.generate(
-                      6,
-                          (index) => SizedBox(
-                        width: 45,
-                        child: TextField(
-                          controller: _controllers[index],
-                          keyboardType: TextInputType.number,
-                          maxLength: 1,
-                          textAlign: TextAlign.center,
-                          style: const TextStyle(fontSize: 20),
-                          decoration: InputDecoration(
-                            counterText: '',
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(12),
-                            ),
-                          ),
-                          onChanged: (value) {
-                            if (value.isNotEmpty && index < 5) {
-                              FocusScope.of(context).nextFocus();
-                            }
-                          },
-                        ),
-                      ),
-                    ),
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: List.generate(6, _buildOtpBox),
                   ),
-
-                  const SizedBox(height: 40),
-
-                  // زر التأكيد
+                  const SizedBox(height: 30),
                   SizedBox(
                     width: double.infinity,
-                    child: ElevatedButton.icon(
-                      onPressed: _submitOtp,
-                      icon: const Icon(Iconsax.verify),
-                      label: const Text(
-                        'تأكيد',
-                        style: TextStyle(fontSize: 18),
-                      ),
+                    child: ElevatedButton(
+                      onPressed: () {
+                        // التحقق من الكود
+                      },
                       style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.pinkAccent,
-                        foregroundColor: Colors.white,
-                        padding: const EdgeInsets.symmetric(vertical: 16),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(12),
-                        ),
+                        backgroundColor: Colors.white,
+                        foregroundColor: AppColors.mainColor,
+                        padding: const EdgeInsets.symmetric(vertical: 14),
                       ),
+                      child: const Text('تأكيد'),
                     ),
                   ),
                 ],
