@@ -52,7 +52,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   ),
                   const SizedBox(height: 30),
 
-
                   TextFormField(
                     controller: _nameController,
                     decoration: InputDecoration(
@@ -72,7 +71,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     },
                   ),
                   const SizedBox(height: 15),
-
 
                   TextFormField(
                     controller: _emailController,
@@ -95,7 +93,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   ),
                   const SizedBox(height: 15),
 
-
                   TextFormField(
                     controller: _phoneController,
                     decoration: InputDecoration(
@@ -116,7 +113,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     },
                   ),
                   const SizedBox(height: 15),
-
 
                   TextFormField(
                     controller: _passwordController,
@@ -149,7 +145,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   ),
                   const SizedBox(height: 20),
 
-
                   SizedBox(
                     width: double.infinity,
                     child: ElevatedButton(
@@ -158,7 +153,10 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (_) => const OtpScreen(),
+                              builder: (_) => OtpScreen(
+                                studentName: _nameController.text.trim(),
+                                imagePath: 'assets/images/kid.jpg', // ضع صورة موجودة عندك في مجلد assets
+                              ),
                             ),
                           );
                         }
@@ -179,7 +177,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   ),
 
                   const SizedBox(height: 15),
-
 
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,

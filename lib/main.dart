@@ -1,5 +1,8 @@
 ﻿import 'package:flutter/material.dart';
 import 'welcome_screen.dart';
+import 'login_screen.dart';
+import 'otp_screen.dart';
+import 'home_screen.dart';
 
 void main() {
   runApp(const MyApp());
